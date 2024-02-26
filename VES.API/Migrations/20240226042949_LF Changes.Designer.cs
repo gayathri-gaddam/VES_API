@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VES.API.Data;
 
@@ -11,9 +12,11 @@ using VES.API.Data;
 namespace VES.API.Migrations
 {
     [DbContext(typeof(VESDbContext))]
-    partial class VESDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240226042949_LF Changes")]
+    partial class LFChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,49 +119,16 @@ namespace VES.API.Migrations
                     b.Property<string>("AccountNo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CurrentCharges")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HascontBFs")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("InvoiceDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("InvoiceID")
                         .HasColumnType("int");
 
-                    b.Property<string>("LfAmount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PMC")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostingDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrimaryRc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PriorBalance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Priority")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rc1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rc2")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SiteName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TemplateAmount")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")

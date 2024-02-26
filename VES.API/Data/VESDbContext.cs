@@ -13,5 +13,6 @@ namespace VES.API.Data
         }
 
         public DbSet<LFMngment> LFMngment{ get; set; }
+        public DbSet<pastDue> pastDues { get; set; }
     }
 }

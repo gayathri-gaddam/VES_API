@@ -11,50 +11,9 @@ namespace VES.API.Controllers
     [ApiController]
     public class LFMngmentController : ControllerBase
     {
-        /*
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            /*
-            var tblLFMngment = new List<LFMngment>
-            {
-                new LFMngment
-                {
-                  Id=1,
-                  Name="Arch Asset Management LLC",
-                  SiteName="Austin Woods",
-                  VendorName="Dominion Energy South Carolina",
-                  AccountNo="3210136708471"
-                },
-                new LFMngment
-                {
-                  Id=2,
-                  Name="Arch Asset Management LLC",
-                  SiteName="Harbour Landing",
-                  VendorName="Dominion Energy South Carolina",
-                  AccountNo="3210135062851"
-                },
-                 new LFMngment
-                {
-                  Id=3,
-                  Name="Arch Asset Management LLC",
-                  SiteName="Austin Woods",
-                  VendorName="Dominion Energy South Carolina",
-                  AccountNo="3210135645207"
-                },
-                 new LFMngment
-                {
-                  Id=4,
-                  Name="Arch Asset Management LLC",
-                  SiteName="Austin Woods",
-                  VendorName="Dominion Energy South Carolina",
-                  AccountNo="3210131953456"
-                }
-            };
-            return Ok(tblLFMngment);*/
 
-            
             private readonly VESDbContext dbContext;
+
             public LFMngmentController(VESDbContext dbContext)
             {
                     this.dbContext = dbContext;
@@ -81,8 +40,19 @@ namespace VES.API.Controllers
                     PostingDate = item.PostingDate,
                     ReceivedDate = item.ReceivedDate,
                     TotalAmountDue = item.TotalAmountDue,
-                    LateFeeAmount   = item.LateFeeAmount
-
+                    LateFeeAmount   = item.LateFeeAmount,
+                    ImpactAmount = item.ImpactAmount,
+                    RequestedBy = item.RequestedBy,
+                    RootCause1 = item.RootCause1,
+                    RootCause2 = item.RootCause2,
+                    Remarks = item.Remarks,
+                    Creditmethod = item.Creditmethod,
+                    ExpDatetoCredit = item.ExpDatetoCredit,
+                    WaiverStatus = item.WaiverStatus,
+                    RequestStatus = item.RequestStatus,
+                    ApprovedAmount = item.ApprovedAmount,
+                    DeclinedReason = item.DeclinedReason,
+                    InvoiceSource = item.InvoiceSource
                 });
             }
                // Return DTO
@@ -118,7 +88,19 @@ namespace VES.API.Controllers
                 PostingDate = item.PostingDate,
                 ReceivedDate = item.ReceivedDate,
                 TotalAmountDue = item.TotalAmountDue,
-                LateFeeAmount = item.LateFeeAmount
+                LateFeeAmount = item.LateFeeAmount,
+                ImpactAmount = item.ImpactAmount,
+                RequestedBy = item.RequestedBy,
+                RootCause1 = item.RootCause1,
+                RootCause2 = item.RootCause2,
+                Remarks = item.Remarks,
+                Creditmethod = item.Creditmethod,
+                ExpDatetoCredit = item.ExpDatetoCredit,
+                WaiverStatus = item.WaiverStatus,
+                RequestStatus = item.RequestStatus,
+                ApprovedAmount= item.ApprovedAmount,
+                DeclinedReason = item.DeclinedReason,
+                InvoiceSource = item.InvoiceSource
             };
             return Ok(item);
           }
@@ -149,45 +131,47 @@ namespace VES.API.Controllers
                 PostingDate = item.PostingDate,
                 ReceivedDate = item.ReceivedDate,
                 TotalAmountDue = item.TotalAmountDue,
-                LateFeeAmount = item.LateFeeAmount
+                LateFeeAmount = item.LateFeeAmount,
+                ImpactAmount = item.ImpactAmount,
+                RequestedBy = item.RequestedBy,
+                RootCause1 = item.RootCause1,
+                RootCause2 = item.RootCause2,
+                Remarks = item.Remarks,
+                Creditmethod = item.Creditmethod,
+                ExpDatetoCredit = item.ExpDatetoCredit,
+                WaiverStatus = item.WaiverStatus,
+                RequestStatus = item.RequestStatus,
+                ApprovedAmount = item.ApprovedAmount,
+                DeclinedReason = item.DeclinedReason,
+                InvoiceSource = item.InvoiceSource
             };
             return Ok(item);
         }
 
 
-
-
-
-
-
-
-
-        //New Action Method to create new entry
-
-        [HttpPost]
-        public IActionResult Create([FromBody]AddNewEntryDto addNewEntryDto)
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] AddNewEntryDto addNewEntryDto)
         {
-            //Convert DTO to Domain Model
-            var item = new LFMngment
+            var item = dbContext.LFMngment.FirstOrDefault(x => x.Id == id);
+            if (item == null)
             {
-                Name = addNewEntryDto.Name,
-                SiteName = addNewEntryDto.SiteName,
-                VendorName = addNewEntryDto.VendorName,
-                AccountNo = addNewEntryDto.AccountNo,
-                InvoiceDate = addNewEntryDto.InvoiceDate,
-                DueDate = addNewEntryDto.DueDate,
-                PostingDate = addNewEntryDto.PostingDate,
-                ReceivedDate = addNewEntryDto.ReceivedDate,
-                TotalAmountDue = addNewEntryDto.TotalAmountDue,
-                LateFeeAmount = addNewEntryDto.LateFeeAmount
-            };
-            // Use Domain Model to create a new entry in table
-            dbContext.LFMngment.Add(item); 
+                return NotFound(); // Or any appropriate response indicating ID not found
+            }
+
+            item.RootCause1 = addNewEntryDto.RootCause1;
+            item.RootCause2 = addNewEntryDto.RootCause2;
+            item.Remarks = addNewEntryDto.Remarks;
+            item.Creditmethod = addNewEntryDto.Creditmethod;
+            item.ExpDatetoCredit = addNewEntryDto.ExpDatetoCredit;
+            item.WaiverStatus = addNewEntryDto.WaiverStatus;
+            item.RequestStatus = addNewEntryDto.RequestStatus;
+            item.ApprovedAmount = addNewEntryDto.ApprovedAmount;
+            item.InvoiceSource = addNewEntryDto.InvoiceSource;
+            item.DeclinedReason = addNewEntryDto.DeclinedReason;
+
             dbContext.SaveChanges();
 
-            //Map Domain Model Back to DTO
-
-            var newitem = new LFMngmentDto
+            var updatedItem = new LFMngmentDto
             {
                 Id = item.Id,
                 Name = item.Name,
@@ -199,10 +183,22 @@ namespace VES.API.Controllers
                 PostingDate = item.PostingDate,
                 ReceivedDate = item.ReceivedDate,
                 TotalAmountDue = item.TotalAmountDue,
-                LateFeeAmount = item.LateFeeAmount
-
+                LateFeeAmount = item.LateFeeAmount,
+                ImpactAmount = item.ImpactAmount,
+                RequestedBy = item.RequestedBy,
+                RootCause1 = item.RootCause1,
+                RootCause2 = item.RootCause2,
+                Remarks = item.Remarks,
+                Creditmethod = item.Creditmethod,
+                ExpDatetoCredit = item.ExpDatetoCredit,
+                WaiverStatus = item.WaiverStatus,
+                RequestStatus = item.RequestStatus,
+                ApprovedAmount = item.ApprovedAmount,
+                DeclinedReason = item.DeclinedReason,
+                InvoiceSource = item.InvoiceSource
             };
-            return CreatedAtAction(nameof(GetById), new {id=item.Id},newitem);
+
+            return Ok(updatedItem); 
         }
 
     }
