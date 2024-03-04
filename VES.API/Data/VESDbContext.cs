@@ -7,12 +7,15 @@ namespace VES.API.Data
     // : that means inherits
     public class VESDbContext : DbContext
     {
-        public VESDbContext(DbContextOptions dbContextOptions) :base(dbContextOptions)
-        {
-            
-        }
+        public VESDbContext(DbContextOptions dbContextOptions) :base(dbContextOptions){ }
 
-        public DbSet<LFMngment> LFMngment{ get; set; }
-        public DbSet<pastDue> pastDues { get; set; }
+        public DbSet<LFManagment> LFManagment{ get; set; }
+        public DbSet<PastDue> PastDues { get; set; }
+        public DbSet<Notice> Notices { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
+        }
     }
 }

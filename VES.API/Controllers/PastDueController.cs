@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VES.API.Data;
@@ -9,206 +10,93 @@ namespace VES.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class PastDueController : ControllerBase
     {
         private readonly VESDbContext dbContext;
-
-        public PastDueController(VESDbContext dbContext)
+        private readonly IMapper _mapper;
+        public PastDueController(VESDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this._mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-
             // Get Data From DataBase
-            var list = dbContext.pastDues.ToList();
+            var list = dbContext.PastDues.ToList();
 
-            // Map Domain Models to DTOs
+            // Map Domain Models to DTOs using AutoMapper
+            var listdto = _mapper.Map<List<PastDueDto>>(list);
 
-            var listdto = new List<pastDueDto>();
-            foreach (var item in list)
-            {
-                listdto.Add(new pastDueDto()
-                {
-                    EntryId = item.EntryId,
-                    PMC = item.PMC,
-                    InvoiceID = item.InvoiceID,
-                    Type = item.Type,
-                    SiteName = item.SiteName,
-                    VendorName = item.VendorName,
-                    AccountNo = item.AccountNo,
-                    InvoiceDate = item.InvoiceDate,
-                    HascontBFs = item.HascontBFs,
-                    PostingDate = item.PostingDate,
-                    PriorBalance = item.PriorBalance,
-                    CurrentCharges = item.CurrentCharges,
-                    LfAmount = item.LfAmount,
-                    Priority = item.Priority,
-                    TemplateAmount = item.TemplateAmount,
-                    PrimaryRc = item.PrimaryRc,
-                    Rc1 = item.Rc1,
-                    Rc2 = item.Rc2, 
-                    Notes = item.Notes
-
-                });
-            }
             return Ok(listdto);
         }
 
-
-        [HttpGet("ids/{entryId}")]
+        [HttpGet("getById/{entryId}")]
         public IActionResult GetById([FromRoute] int entryId)
         {
-            var item = dbContext.pastDues.FirstOrDefault(x => x.EntryId == entryId);
+            var item = dbContext.PastDues.FirstOrDefault(x => x.EntryId == entryId);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            var pastduedto = new pastDueDto
-            {
+            var pastduedto = _mapper.Map<PastDueDto>(item);
 
-                EntryId = item.EntryId,
-                PMC = item.PMC,
-                InvoiceID = item.InvoiceID,
-                Type = item.Type,
-                SiteName = item.SiteName,
-                VendorName = item.VendorName,
-                AccountNo = item.AccountNo,
-                InvoiceDate = item.InvoiceDate,
-                HascontBFs = item.HascontBFs,
-                PostingDate = item.PostingDate,
-                PriorBalance = item.PriorBalance,
-                CurrentCharges = item.CurrentCharges,
-                LfAmount = item.LfAmount,
-                Priority = item.Priority,
-                TemplateAmount = item.TemplateAmount,
-                PrimaryRc = item.PrimaryRc,
-                Rc1 = item.Rc1,
-                Rc2 = item.Rc2,
-                Notes = item.Notes
-
-            };
-            return Ok(item);
+            return Ok(pastduedto);
         }
 
-
-        [HttpGet("invoices/{invoiceId}")]
+        [HttpGet("getByInvoiceId/{invoiceId}")]
         public IActionResult GetByInvoiceId([FromRoute] int invoiceId)
         {
-            var items = dbContext.pastDues.FirstOrDefault(x => x.InvoiceID == invoiceId);
+            var items = dbContext.PastDues.FirstOrDefault(x => x.InvoiceID == invoiceId);
             if (items == null)
             {
                 return NotFound();
             }
 
-            var pastduedtos = new pastDueDto
-            {
+            var pastduedtos = _mapper.Map<PastDueDto>(items);
 
-                EntryId = items.EntryId,
-                PMC = items.PMC,
-                InvoiceID = items.InvoiceID,
-                Type = items.Type,
-                SiteName = items.SiteName,
-                VendorName = items.VendorName,
-                AccountNo = items.AccountNo,
-                InvoiceDate = items.InvoiceDate,
-                HascontBFs = items.HascontBFs,
-                PostingDate = items.PostingDate,
-                PriorBalance = items.PriorBalance,
-                CurrentCharges = items.CurrentCharges,
-                LfAmount = items.LfAmount,
-                Priority = items.Priority,
-                TemplateAmount = items.TemplateAmount,
-                PrimaryRc = items.PrimaryRc,
-                Rc1 = items.Rc1,
-                Rc2 = items.Rc2,
-                Notes = items.Notes
-
-            };
-            return Ok(items);
+            return Ok(pastduedtos);
 
         }
 
-        [HttpGet("accounts/{accNo})")]
+        [HttpGet("getByAccNo/{accNo}")]
         public IActionResult GetByAccNo([FromRoute] string accNo)
         {
-            var items = dbContext.pastDues.FirstOrDefault(x => x.AccountNo == accNo);
+            var items = dbContext.PastDues.FirstOrDefault(x => x.AccountNo == accNo);
             if (items == null)
             {
                 return NotFound();
             }
 
-            var pastduedtos = new pastDueDto
-            {
+            var pastduedtos = _mapper.Map<PastDueDto>(items);
 
-                EntryId = items.EntryId,
-                PMC = items.PMC,
-                InvoiceID = items.InvoiceID,
-                Type = items.Type,
-                SiteName = items.SiteName,
-                VendorName = items.VendorName,
-                AccountNo = items.AccountNo,
-                InvoiceDate = items.InvoiceDate,
-                HascontBFs = items.HascontBFs,
-                PostingDate = items.PostingDate,
-                PriorBalance = items.PriorBalance,
-                CurrentCharges = items.CurrentCharges,
-                LfAmount = items.LfAmount,
-                Priority = items.Priority,
-                TemplateAmount = items.TemplateAmount,
-                PrimaryRc = items.PrimaryRc,
-                Rc1 = items.Rc1,
-                Rc2 = items.Rc2,
-                Notes = items.Notes
-
-            };
-            return Ok(items);
+            return Ok(pastduedtos);
 
         }
-
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] UpdatePBDto updatedto)
         {
-            var item = dbContext.pastDues.FirstOrDefault(x => x.EntryId == id);
-            if(item == null)
+            var item = dbContext.PastDues.FirstOrDefault(x => x.EntryId == id);
+            if (item == null)
             {
                 return NotFound();
             }
-            item.Rc1 = updatedto.Rc1;
-            item.Rc2 = updatedto.Rc2;  
-            item.Notes = updatedto.Notes;
+
+            // Map UpdatePBDto to PastDue object using AutoMapper
+            _mapper.Map(updatedto, item);
 
             dbContext.SaveChanges();
 
-            var updatedItems = new pastDueDto
-            {
-                EntryId = item.EntryId,
-                PMC = item.PMC,
-                InvoiceID = item.InvoiceID,
-                Type = item.Type,
-                SiteName = item.SiteName,
-                VendorName = item.VendorName,
-                AccountNo = item.AccountNo,
-                InvoiceDate = item.InvoiceDate,
-                HascontBFs = item.HascontBFs,
-                PostingDate = item.PostingDate,
-                PriorBalance = item.PriorBalance,
-                CurrentCharges = item.CurrentCharges,
-                LfAmount = item.LfAmount,
-                Priority = item.Priority,
-                TemplateAmount = item.TemplateAmount,
-                PrimaryRc = item.PrimaryRc,
-                Rc1 = item.Rc1,
-                Rc2 = item.Rc2,
-                Notes = item.Notes
-            };
+            var updatedItems = _mapper.Map<PastDueDto>(item);
+
             return Ok(updatedItems);
         }
     }
 }
+
 

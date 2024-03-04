@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VES.API.Data;
 
@@ -11,9 +12,11 @@ using VES.API.Data;
 namespace VES.API.Migrations
 {
     [DbContext(typeof(VESDbContext))]
-    partial class VESDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240229093343_changed table names")]
+    partial class changedtablenames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,17 +105,7 @@ namespace VES.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LFManagment");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 10,
-                            AccountNo = "123",
-                            Name = "A",
-                            SiteName = "B",
-                            VendorName = "D"
-                        });
+                    b.ToTable("LFMngment");
                 });
 
             modelBuilder.Entity("VES.API.Models.Domain.Notice", b =>
@@ -208,58 +201,6 @@ namespace VES.API.Migrations
                     b.HasKey("entryId");
 
                     b.ToTable("Notices");
-
-                    b.HasData(
-                        new
-                        {
-                            entryId = 89957,
-                            accountNo = "4777230908",
-                            autoApp = "",
-                            changeReason = "",
-                            impactAmount = 0.01f,
-                            impactDate = "12/18/2023",
-                            noticeActionId = "Late Notice_5959Estuary4777230908Gas South_002B_010000",
-                            noticeDate = "11/28/2023",
-                            noticeId = 5959,
-                            noticePbMatchId = "5959Estuary4777230908Gas South_010000",
-                            platform = "VES",
-                            pmc = "Federal Capital Partners",
-                            postingDate = "12/9/2023",
-                            remarks = "",
-                            resolutionStatus = "",
-                            siteName = "Estuary",
-                            type = "Late Notice",
-                            unitNo = "002B",
-                            uploadDate = "12/11/2023",
-                            userRc = "",
-                            vendorName = "Gas South",
-                            watchList = ""
-                        },
-                        new
-                        {
-                            entryId = 89978,
-                            accountNo = "2222305563",
-                            autoApp = "",
-                            changeReason = "",
-                            impactAmount = 32.89f,
-                            impactDate = "12/14/2023",
-                            noticeActionId = "Late Notice_97909Rosewood Apartments #10110 (26876)2222305563Idaho Power_H102_020100",
-                            noticeDate = "12/4/2023",
-                            noticeId = 97909,
-                            noticePbMatchId = "97909Rosewood Apartments #10110 (26876)2222305563Idaho Power_020100",
-                            platform = "VES",
-                            pmc = "Greystar Management Services LP",
-                            postingDate = "12/10/2023",
-                            remarks = "",
-                            resolutionStatus = "",
-                            siteName = "Rosewood Apartments #10110 (26876)",
-                            type = "Late Notice",
-                            unitNo = "H102",
-                            uploadDate = "12/11/2023",
-                            userRc = "",
-                            vendorName = "Idaho Power",
-                            watchList = ""
-                        });
                 });
 
             modelBuilder.Entity("VES.API.Models.Domain.PastDue", b =>
@@ -327,30 +268,6 @@ namespace VES.API.Migrations
                     b.HasKey("EntryId");
 
                     b.ToTable("PastDues");
-
-                    b.HasData(
-                        new
-                        {
-                            EntryId = 5896,
-                            AccountNo = "",
-                            CurrentCharges = "",
-                            HascontBFs = "",
-                            InvoiceDate = "",
-                            InvoiceID = 1,
-                            LfAmount = "",
-                            Notes = "",
-                            PMC = "A",
-                            PostingDate = "",
-                            PrimaryRc = "",
-                            PriorBalance = "",
-                            Priority = "",
-                            Rc1 = "",
-                            Rc2 = "",
-                            SiteName = "",
-                            TemplateAmount = "",
-                            Type = "",
-                            VendorName = ""
-                        });
                 });
 #pragma warning restore 612, 618
         }

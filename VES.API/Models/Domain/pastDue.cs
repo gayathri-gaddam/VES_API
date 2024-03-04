@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VES.API.Models.Domain
 {
-    public class pastDue
+    public class PastDue
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

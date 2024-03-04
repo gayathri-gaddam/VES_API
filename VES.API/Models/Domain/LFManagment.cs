@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VES.API.Models.Domain
 {
-    public class LFMngment
+    public class LFManagment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,7 +28,6 @@ namespace VES.API.Models.Domain
 
         public decimal? LateFeeAmount { get; set; }
 
-        
         public string? ImpactAmount { get; set; }
 
         public string? RequestedBy { get; set; }
