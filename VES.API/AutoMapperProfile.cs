@@ -10,7 +10,7 @@ namespace VES.API
         {
             CreateMap<Notice, NoticeDto>();
             CreateMap<PastDue, PastDueDto>();
-            CreateMap<LFManagment,LFMngmentDto>();
+            CreateMap<LFManagement,LFManagementDto>();
         }
     }
 }

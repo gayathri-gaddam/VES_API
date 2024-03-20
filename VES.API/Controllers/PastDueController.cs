@@ -8,7 +8,7 @@ using VES.API.Models.DTO;
 
 namespace VES.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/pastDues")]
     [ApiController]
 
     public class PastDueController : ControllerBase
@@ -33,7 +33,7 @@ namespace VES.API.Controllers
             return Ok(listdto);
         }
 
-        [HttpGet("getById/{entryId}")]
+        [HttpGet("{entryId}")]
         public IActionResult GetById([FromRoute] int entryId)
         {
             var item = dbContext.PastDues.FirstOrDefault(x => x.EntryId == entryId);
@@ -48,7 +48,7 @@ namespace VES.API.Controllers
             return Ok(pastduedto);
         }
 
-        [HttpGet("getByInvoiceId/{invoiceId}")]
+        [HttpGet("{invoiceId}")]
         public IActionResult GetByInvoiceId([FromRoute] int invoiceId)
         {
             var items = dbContext.PastDues.FirstOrDefault(x => x.InvoiceID == invoiceId);
@@ -63,7 +63,7 @@ namespace VES.API.Controllers
 
         }
 
-        [HttpGet("getByAccNo/{accNo}")]
+        [HttpGet("{accNo}")]
         public IActionResult GetByAccNo([FromRoute] string accNo)
         {
             var items = dbContext.PastDues.FirstOrDefault(x => x.AccountNo == accNo);

@@ -1,5 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 using VES.API.Models.Domain;
+using static Azure.Core.HttpHeader;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace VES.API.Data
 {
     public static class ModelInitializerExtensions
@@ -82,18 +87,35 @@ namespace VES.API.Data
                     Rc2 = "",
                     Notes = ""
                 });
-
-
-            modelBuilder.Entity<LFManagment>().HasData(
-                new LFManagment
-                {
-                    Id=10,
-                    Name = "A",
-                    SiteName="B",
-                    VendorName= "D",
-                    AccountNo = "123",
-                    
-                });
+            modelBuilder.Entity<LFManagement>().HasData(
+            new LFManagement
+            {
+                Id = 277997,
+                Name= "Arch Asset Management LLC",
+                SiteName= "Austin Woods",
+                VendorName= "Dominion Energy South Carolina",
+                AccountNo= "3210131953456",
+                InvoiceDate= "45271",
+                DueDate= "45289",
+                PostingDate= "12/18/2023",
+                ReceivedDate= "45278.5985417477",
+                TotalAmountDue=919000,
+                LateFeeAmount=111900,
+                ImpactAmount="OverDue",
+                RequestedBy="Philipines team",
+                ExpDatetoCredit="",
+                WaiverStatus="Auto Closed",
+                Remarks="",
+                RootCause1="Error in the System",
+                RootCause2="",
+                Creditmethod="Simple Bills",
+                RequestStatus="Auto Closed",
+                ApprovedAmount=2.10,
+                DeclinedReason="Error in the System",
+                InvoiceSource="Philips",
+            });
+            
+            
         }
     }
 }

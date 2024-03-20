@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿
 
-namespace VES.API.Models.Domain
+namespace VES.API.Models.DTO
 {
-    public class LFManagment
+    public class LFManagementDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+       
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -16,27 +14,27 @@ namespace VES.API.Models.Domain
 
         public string AccountNo { get; set; }
 
-        public DateTime? InvoiceDate { get; set; }
+        public string? InvoiceDate { get; set; }
 
-        public DateTime? DueDate { get; set; }
+        public string? DueDate { get; set; }
 
-        public DateTime? PostingDate { get; set; }
+        public string? PostingDate { get; set; }
 
-        public DateTime? ReceivedDate { get; set; }
+        public string? ReceivedDate { get; set; }
 
-        public decimal? TotalAmountDue { get; set; }
+        public double? TotalAmountDue { get; set; }
 
-        public decimal? LateFeeAmount { get; set; }
-
+        public double? LateFeeAmount { get; set; }
+        
         public string? ImpactAmount { get; set; }
 
         public string? RequestedBy { get; set; }
 
         public string? RootCause1 { get; set; }
 
-        public string? RootCause2 { get; set;}
+        public string? RootCause2 { get; set; }
 
-        public string? Remarks { get; set;}
+        public string? Remarks { get; set; }
 
         public string? Creditmethod { get; set; }
 
@@ -46,7 +44,7 @@ namespace VES.API.Models.Domain
 
         public string? RequestStatus { get; set; }
 
-        public string? ApprovedAmount { get; set; }
+        public double? ApprovedAmount { get; set; }
 
         public string? DeclinedReason { get; set; }
 
