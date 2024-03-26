@@ -7,38 +7,37 @@ using VES.API.Models.DTO;
 
 namespace VES.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-
-    public class LFMngmentController : ControllerBase
+    [Route("/api/v1/lateFees")]
+    public class LFManagementController : ControllerBase
     {
         private readonly VESDbContext dbContext;
         private readonly IMapper _mapper;
 
-        public LFMngmentController(VESDbContext dbContext, IMapper mapper)
+        public LFManagementController(VESDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
             _mapper = mapper;
         }
 
-        [HttpGet("/GetAll")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             //Get Data From Database - Domain Models
-            var tblLFMngment = dbContext.LFManagment.ToList();
+            var tblLFMngment = dbContext.LFManagement.ToList();
 
             // Map Domain Models to DTOs using AutoMapper
-            var tblLFMngmentDto = _mapper.Map<List<LFMngmentDto>>(tblLFMngment);
+            var tblLFMngmentDto = _mapper.Map<List<LFManagementDto>>(tblLFMngment);
 
             // Return DTO
             return Ok(tblLFMngmentDto);
         }
 
-        [HttpGet("getById/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
             // Get LFMngment Domain from Database
-            var item = dbContext.LFManagment.FirstOrDefault(x => x.Id == id);
+            var item = dbContext.LFManagement.FirstOrDefault(x => x.Id == id);
 
             if (item == null)
             {
@@ -46,16 +45,16 @@ namespace VES.API.Controllers
             }
 
             //Map LFmngment Domain Model to LFmngment DTO using AutoMapper
-            var lfmngmentdto = _mapper.Map<LFMngmentDto>(item);
+            var lfmngmentdto = _mapper.Map<LFManagementDto>(item);
 
             return Ok(lfmngmentdto);
         }
 
-        [HttpGet("getByName/{name}")]
+        [HttpGet("{name}")]
         public IActionResult GetByName([FromRoute] string name)
         {
             // Get LFMngment Domain from Database
-            var item = dbContext.LFManagment.FirstOrDefault(item => item.Name == name);
+            var item = dbContext.LFManagement.FirstOrDefault(item => item.Name == name);
 
             if (item == null)
             {
@@ -63,7 +62,7 @@ namespace VES.API.Controllers
             }
 
             //Map LFmngment Domain Model to LFmngment DTO using AutoMapper
-            var lfmngmentdto = _mapper.Map<LFMngmentDto>(item);
+            var lfmngmentdto = _mapper.Map<LFManagementDto>(item);
 
             return Ok(lfmngmentdto);
         }
@@ -72,7 +71,7 @@ namespace VES.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] AddNewEntryDto addNewEntryDto)
         {
-            var item = dbContext.LFManagment.FirstOrDefault(x => x.Id == id);
+            var item = dbContext.LFManagement.FirstOrDefault(x => x.Id == id);
             if (item == null)
             {
                 return NotFound(); // Or any appropriate response indicating ID not found
@@ -83,7 +82,7 @@ namespace VES.API.Controllers
 
             dbContext.SaveChanges();
 
-            var updatedItem = _mapper.Map<LFMngmentDto>(item);
+            var updatedItem = _mapper.Map<LFManagementDto>(item);
 
             return Ok(updatedItem);
         }

@@ -9,7 +9,7 @@ namespace VES.API.Data
     {
         public VESDbContext(DbContextOptions dbContextOptions) :base(dbContextOptions){ }
 
-        public DbSet<LFManagment> LFManagment{ get; set; }
+        public DbSet<LFManagement> LFManagement{ get; set; }
         public DbSet<PastDue> PastDues { get; set; }
         public DbSet<Notice> Notices { get; set; }
 

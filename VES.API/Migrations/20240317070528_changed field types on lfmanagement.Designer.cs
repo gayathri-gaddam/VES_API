@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VES.API.Data;
 
@@ -11,9 +12,11 @@ using VES.API.Data;
 namespace VES.API.Migrations
 {
     [DbContext(typeof(VESDbContext))]
-    partial class VESDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317070528_changed field types on lfmanagement")]
+    partial class changedfieldtypesonlfmanagement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,21 +113,21 @@ namespace VES.API.Migrations
                             Id = 277997,
                             AccountNo = "3210131953456",
                             ApprovedAmount = 2.1000000000000001,
-                            Creditmethod = "Simple Bills",
-                            DeclinedReason = "Error in the System",
+                            Creditmethod = "",
+                            DeclinedReason = "",
                             DueDate = "45289",
                             ExpDatetoCredit = "",
                             ImpactAmount = "OverDue",
                             InvoiceDate = "45271",
-                            InvoiceSource = "Philips",
+                            InvoiceSource = "",
                             LateFeeAmount = 111900.0,
                             Name = "Arch Asset Management LLC",
                             PostingDate = "12/18/2023",
                             ReceivedDate = "45278.5985417477",
                             Remarks = "",
                             RequestStatus = "Auto Closed",
-                            RequestedBy = "Philipines team",
-                            RootCause1 = "Error in the System",
+                            RequestedBy = "",
+                            RootCause1 = "",
                             RootCause2 = "",
                             SiteName = "Austin Woods",
                             TotalAmountDue = 919000.0,

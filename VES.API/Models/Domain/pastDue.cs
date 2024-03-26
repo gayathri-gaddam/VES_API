@@ -6,7 +6,6 @@ namespace VES.API.Models.Domain
     public class PastDue
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? EntryId { get; set; }
 
         public string? PMC { get; set; }

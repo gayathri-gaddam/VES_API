@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VES.API.Data;
 
@@ -11,9 +12,11 @@ using VES.API.Data;
 namespace VES.API.Migrations
 {
     [DbContext(typeof(VESDbContext))]
-    partial class VESDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240304060250_merged all tables into VES database")]
+    partial class mergedalltablesintoVESdatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,8 +37,8 @@ namespace VES.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("ApprovedAmount")
-                        .HasColumnType("float");
+                    b.Property<string>("ApprovedAmount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Creditmethod")
                         .HasColumnType("nvarchar(max)");
@@ -43,8 +46,8 @@ namespace VES.API.Migrations
                     b.Property<string>("DeclinedReason")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DueDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ExpDatetoCredit")
                         .HasColumnType("nvarchar(max)");
@@ -52,24 +55,24 @@ namespace VES.API.Migrations
                     b.Property<string>("ImpactAmount")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InvoiceDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("InvoiceDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("InvoiceSource")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("LateFeeAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("LateFeeAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostingDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("PostingDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("ReceivedDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("ReceivedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
@@ -90,8 +93,8 @@ namespace VES.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("TotalAmountDue")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("TotalAmountDue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("VendorName")
                         .IsRequired()
@@ -107,29 +110,11 @@ namespace VES.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 277997,
-                            AccountNo = "3210131953456",
-                            ApprovedAmount = 2.1000000000000001,
-                            Creditmethod = "Simple Bills",
-                            DeclinedReason = "Error in the System",
-                            DueDate = "45289",
-                            ExpDatetoCredit = "",
-                            ImpactAmount = "OverDue",
-                            InvoiceDate = "45271",
-                            InvoiceSource = "Philips",
-                            LateFeeAmount = 111900.0,
-                            Name = "Arch Asset Management LLC",
-                            PostingDate = "12/18/2023",
-                            ReceivedDate = "45278.5985417477",
-                            Remarks = "",
-                            RequestStatus = "Auto Closed",
-                            RequestedBy = "Philipines team",
-                            RootCause1 = "Error in the System",
-                            RootCause2 = "",
-                            SiteName = "Austin Woods",
-                            TotalAmountDue = 919000.0,
-                            VendorName = "Dominion Energy South Carolina",
-                            WaiverStatus = "Auto Closed"
+                            Id = 10,
+                            AccountNo = "123",
+                            Name = "A",
+                            SiteName = "B",
+                            VendorName = "D"
                         });
                 });
 
