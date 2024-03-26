@@ -20,25 +20,42 @@ namespace VES.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEmployees()
+        public async Task<IActionResult> GetAllEmployees([FromQuery] long entryId=0, [FromQuery] long noticeId=0 , [FromQuery] long accountNo = 0)
         {
             try
             {
-                var notices = await this._noticeContext.Notices.ToListAsync();
-                if (notices != null)
+                if (entryId != 0 || noticeId != 0 || accountNo != 0)
                 {
-                    return Ok(notices.Select(notice => _mapper.Map<NoticeDto>(notice)));
+                    var notices = this._noticeContext.Notices.Where(notice => notice.entryId.ToString().Contains(entryId.ToString()));
+                    if (notices != null)
+                    {
+                        return Ok(notices.Select(notice => _mapper.Map<NoticeDto>(notice)));
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status204NoContent, "Notices not found");
+                    }
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status204NoContent, "Notices not found");
+
+                    var notices = await this._noticeContext.Notices.ToListAsync();
+                    if (notices != null)
+                    {
+                        return Ok(notices.Select(notice => _mapper.Map<NoticeDto>(notice)));
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status204NoContent, "Notices not found");
+                    }
+
                 }
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
+            
         }
 
         [HttpPut("{id}")]
@@ -64,26 +81,5 @@ namespace VES.API.Controllers
 
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAllEmployees([FromRoute] int id)
-        {
-            try
-            {
-                var notice = await this._noticeContext.Notices.FindAsync(id);
-                if (notice != null)
-                {
-                    return Ok(_mapper.Map<NoticeDto>(notice));
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status204NoContent, $"Notice with {id} not found");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-
-        }
     }
 }

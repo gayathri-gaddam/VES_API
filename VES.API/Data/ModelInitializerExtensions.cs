@@ -67,25 +67,25 @@ namespace VES.API.Data
             modelBuilder.Entity<PastDue>().HasData(
                 new PastDue
                 {
-                    EntryId=5896,
-                    PMC = "A",
-                    InvoiceID = 1,
-                    Type = "",
-                    SiteName = "",
-                    VendorName = "",
-                    AccountNo = "",
-                    InvoiceDate = "",
-                    HascontBFs = "",
-                    PostingDate = "",
-                    PriorBalance = "",
-                    CurrentCharges = "",
-                    LfAmount = "",
-                    Priority = "",
-                    TemplateAmount = "",
+                    EntryId = 7910,
+                    PMC = "Multifamily Management Services, LLC",
+                    InvoiceID = 225289,
+                    Type = "Master",
+                    SiteName = "280 Park Place",
+                    VendorName = "Get-A-Can Recycling",
+                    AccountNo = "014205",
+                    InvoiceDate = "10/1/2023",
+                    HascontBFs = "1",
+                    PostingDate = "10/17/2023",
+                    PriorBalance = "5/17/1900",
+                    CurrentCharges = "$123.00",
+                    LfAmount = "$0.00",
+                    Priority = "New",
+                    TemplateAmount = "0",
                     PrimaryRc = "",
-                    Rc1 = "",
-                    Rc2 = "",
-                    Notes = ""
+                    Rc1 = "Missing Audited Invoice",
+                    Rc2 = "Final Invoice",
+                    Notes = "Payment ID and Date Posted Entered"
                 });
             modelBuilder.Entity<LFManagement>().HasData(
             new LFManagement
