@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using VES.API.Data;
-using VES.API.Models.Domain;
+﻿using Microsoft.AspNetCore.Mvc;
 using VES.API.Models.DTO;
+using VES.API.Types.Interfaces;
 
 namespace VES.API.Controllers
 {
@@ -11,55 +8,37 @@ namespace VES.API.Controllers
     [Route("/api/v1/notices")]
     public class NoticeApiController : Controller
     {
-        private readonly VESDbContext _noticeContext;
-        private readonly IMapper _mapper;
-        public NoticeApiController(VESDbContext noticeCotext, IMapper mapper)
+        private readonly INoticeService _noticeService;
+        
+        public NoticeApiController(INoticeService _noticeService)
         {
-            _noticeContext = noticeCotext;
-            _mapper = mapper;
+            this._noticeService = _noticeService;  
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEmployees([FromQuery] long entryId=0, [FromQuery] long noticeId=0 , [FromQuery] long accountNo = 0)
+        public async Task<IActionResult> GetAllNotices([FromQuery] long? entryId, [FromQuery] long? noticeId, [FromQuery] long? accountNo)
         {
             try
             {
-                if (entryId != 0 || noticeId != 0 || accountNo != 0)
+                List<NoticeDto> notices = await _noticeService.GetAllNotices(entryId, noticeId, accountNo);
+                if (notices != null)
                 {
-                    var notices = this._noticeContext.Notices.Where(notice => notice.entryId.ToString().Contains(entryId.ToString()));
-                    if (notices != null)
-                    {
-                        return Ok(notices.Select(notice => _mapper.Map<NoticeDto>(notice)));
-                    }
-                    else
-                    {
-                        return StatusCode(StatusCodes.Status204NoContent, "Notices not found");
-                    }
+                    return Ok(notices);
                 }
                 else
                 {
-
-                    var notices = await this._noticeContext.Notices.ToListAsync();
-                    if (notices != null)
-                    {
-                        return Ok(notices.Select(notice => _mapper.Map<NoticeDto>(notice)));
-                    }
-                    else
-                    {
-                        return StatusCode(StatusCodes.Status204NoContent, "Notices not found");
-                    }
-
+                    return NotFound("Notices not found with given filter");
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-            
+                return StatusCode(500, ex.Message);
+            }    
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee([FromRoute] int id, [FromBody] Notice noticeModel)
+        /*[HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateNotice([FromRoute] int id, [FromBody] JsonPatchDocument noticeModel)
         {
             try
             {
@@ -79,7 +58,7 @@ namespace VES.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
-        }
+        }*/
 
     }
 }

@@ -11,6 +11,7 @@ namespace VES.API
             CreateMap<Notice, NoticeDto>();
             CreateMap<PastDue, PastDueDto>();
             CreateMap<LFManagement,LFManagementDto>();
+            
         }
     }
 }

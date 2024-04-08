@@ -22,61 +22,45 @@ namespace VES.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetPastDues([FromQuery] long? entryId, [FromQuery] long? inoiceId, [FromQuery] long? accountNo)
         {
-            // Get Data From DataBase
-            var list = dbContext.PastDues.ToList();
-
-            // Map Domain Models to DTOs using AutoMapper
-            var listdto = _mapper.Map<List<PastDueDto>>(list);
-
-            return Ok(listdto);
-        }
-
-        [HttpGet("{entryId}")]
-        public IActionResult GetById([FromRoute] int entryId)
-        {
-            var item = dbContext.PastDues.FirstOrDefault(x => x.EntryId == entryId);
-
-            if (item == null)
+            try
             {
-                return NotFound();
+                
+                if (entryId != null)
+                {
+                    List<PastDue> pastDues = this.dbContext.PastDues.Where(pastDue => pastDue.EntryId.ToString().Contains(entryId.ToString())).ToList();
+                    if (pastDues != null && pastDues.Count > 0)
+                    {
+                        return Ok(pastDues.Select(notice => _mapper.Map<NoticeDto>(notice)));
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status404NotFound, "Past Dues not found");
+                    }
+                }
+                else
+                {
+
+                    var pastDues = await this.dbContext.PastDues.ToListAsync();
+                    if (pastDues != null)
+                    {
+                        return Ok(pastDues.Select(pastDue => _mapper.Map<PastDueDto>(pastDue)));
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status204NoContent, "Past Dues not found");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
-            var pastduedto = _mapper.Map<PastDueDto>(item);
-
-            return Ok(pastduedto);
         }
 
-        [HttpGet("{invoiceId}")]
-        public IActionResult GetByInvoiceId([FromRoute] int invoiceId)
-        {
-            var items = dbContext.PastDues.FirstOrDefault(x => x.InvoiceID == invoiceId);
-            if (items == null)
-            {
-                return NotFound();
-            }
-
-            var pastduedtos = _mapper.Map<PastDueDto>(items);
-
-            return Ok(pastduedtos);
-
-        }
-
-        [HttpGet("{accNo}")]
-        public IActionResult GetByAccNo([FromRoute] string accNo)
-        {
-            var items = dbContext.PastDues.FirstOrDefault(x => x.AccountNo == accNo);
-            if (items == null)
-            {
-                return NotFound();
-            }
-
-            var pastduedtos = _mapper.Map<PastDueDto>(items);
-
-            return Ok(pastduedtos);
-
-        }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] UpdatePBDto updatedto)

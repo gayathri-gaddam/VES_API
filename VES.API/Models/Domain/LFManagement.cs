@@ -29,5 +29,6 @@ namespace VES.API.Models.Domain
         public double? ApprovedAmount { get; set; }
         public string? DeclinedReason { get; set; }
         public string? InvoiceSource { get; set; }
+
     }
 }

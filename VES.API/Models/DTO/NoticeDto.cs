@@ -27,5 +27,6 @@ namespace VES.API.Models.DTO
         public string resolutionStatus { get; set; }
         public string autoApp { get; set; }
         public string userRc { get; set; }
+
     }
 }
