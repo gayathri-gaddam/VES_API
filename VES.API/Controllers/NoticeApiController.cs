@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
+using VES.API.Models.Domain;
 using VES.API.Models.DTO;
 using VES.API.Types.Interfaces;
 
@@ -21,7 +24,7 @@ namespace VES.API.Controllers
             try
             {
                 List<NoticeDto> notices = await _noticeService.GetAllNotices(entryId, noticeId, accountNo);
-                if (notices != null)
+                if (notices != null && notices.Count>0)
                 {
                     return Ok(notices);
                 }
@@ -37,28 +40,26 @@ namespace VES.API.Controllers
 
         }
 
-        /*[HttpPatch("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateNotice([FromRoute] int id, [FromBody] JsonPatchDocument noticeModel)
         {
             try
             {
-                var notice = await _noticeContext.Notices.FindAsync(id);
-                if (notice != null)
+                bool result =await _noticeService.UpdateNotice(id, noticeModel);
+                if (result)
                 {
-                    notice.remarks = noticeModel.remarks;
-                    notice.changeReason = noticeModel.changeReason;
-                    notice.resolutionStatus = noticeModel.resolutionStatus;
-                    await _noticeContext.SaveChangesAsync();
-                    return Ok(_mapper.Map<NoticeDto>(notice));
+                    return Ok("Notice successfully updated");
                 }
-                return StatusCode(StatusCodes.Status204NoContent, $"Notice with {id} not found");
+                else
+                {
+                    return NotFound("Notices not found");
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(500, ex.Message);
             }
-
-        }*/
+        }
 
     }
 }

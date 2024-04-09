@@ -10,16 +10,16 @@ namespace VES.API.Services
 {
     public class NoticeService : INoticeService
     {
-        private readonly VESDbContext _noticeContext;
+        private readonly VESDbContext _context;
         private readonly IMapper _mapper;
-        public NoticeService(VESDbContext noticeCotext, IMapper mapper) {
-            _noticeContext = noticeCotext;
+        public NoticeService(VESDbContext context, IMapper mapper) {
+            _context = context;
             _mapper = mapper;
         }
         public async Task<List<NoticeDto>> GetAllNotices(long? entryId, long? noticeId, long? accountNo)
         {
             List<NoticeDto> noticesDto=null;
-            List<Notice> notices = await this._noticeContext.Notices.ToListAsync();
+            List<Notice> notices = await this._context.Notices.ToListAsync();
 
             try
             {
@@ -47,9 +47,24 @@ namespace VES.API.Services
             return noticesDto;
         }
 
-        public bool UpdateNotice(int id, JsonPatchDocument noticeModel)
+        public async Task<bool> UpdateNotice(int id, JsonPatchDocument noticeModel)
         {
-            return true;
+            Notice notice = null;
+            try
+            {
+                notice = await _context.Notices.Where(notice => notice.entryId == id).FirstAsync();
+                if (notice != null)
+                {
+                    noticeModel.ApplyTo(notice);
+                    await this._context.SaveChangesAsync();
+                    
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            return notice==null?false: true;   
         }
     }
 }
