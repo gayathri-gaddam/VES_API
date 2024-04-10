@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
-using VES.API.Models.Domain;
+
 using VES.API.Models.DTO;
 using VES.API.Types.Interfaces;
 

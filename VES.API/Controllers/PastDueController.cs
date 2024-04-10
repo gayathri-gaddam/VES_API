@@ -1,84 +1,64 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using VES.API.Data;
-using VES.API.Models.Domain;
 using VES.API.Models.DTO;
+using VES.API.Types.Interfaces;
 
 namespace VES.API.Controllers
 {
     [Route("api/v1/pastDues")]
     [ApiController]
 
-    public class PastDueController : ControllerBase
+    public class PastDueController : Controller
     {
-        private readonly VESDbContext dbContext;
-        private readonly IMapper _mapper;
-        public PastDueController(VESDbContext dbContext, IMapper mapper)
+        private readonly IPastDueService _pastDueService;
+        public PastDueController(IPastDueService _pastDueService)
         {
-            this.dbContext = dbContext;
-            this._mapper = mapper;
+            this._pastDueService = _pastDueService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPastDues([FromQuery] long? entryId, [FromQuery] long? inoiceId, [FromQuery] long? accountNo)
+        public async Task<IActionResult> GetPastDues([FromQuery] long? entryId, [FromQuery] long? invoiceId, [FromQuery] long? accountNo)
         {
             try
             {
-                
-                if (entryId != null)
+              List<PastDueDto> pastDues=await _pastDueService.GetPastDues(entryId, invoiceId, accountNo);
+                if(pastDues!=null && pastDues.Count > 0)
                 {
-                    List<PastDue> pastDues = this.dbContext.PastDues.Where(pastDue => pastDue.EntryId.ToString().Contains(entryId.ToString())).ToList();
-                    if (pastDues != null && pastDues.Count > 0)
-                    {
-                        return Ok(pastDues.Select(notice => _mapper.Map<NoticeDto>(notice)));
-                    }
-                    else
-                    {
-                        return StatusCode(StatusCodes.Status404NotFound, "Past Dues not found");
-                    }
+                    return Ok(pastDues);
                 }
                 else
                 {
-
-                    var pastDues = await this.dbContext.PastDues.ToListAsync();
-                    if (pastDues != null)
-                    {
-                        return Ok(pastDues.Select(pastDue => _mapper.Map<PastDueDto>(pastDue)));
-                    }
-                    else
-                    {
-                        return StatusCode(StatusCodes.Status204NoContent, "Past Dues not found");
-                    }
-
+                    return NotFound("Past DUes not found with given filter");
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
         }
 
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UpdatePBDto updatedto)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdatePastDue([FromRoute]int id, [FromBody] JsonPatchDocument pastDueModel)
         {
-            var item = dbContext.PastDues.FirstOrDefault(x => x.EntryId == id);
-            if (item == null)
+            try
             {
-                return NotFound();
+                bool result = await _pastDueService.UpdatePastDue(id, pastDueModel);
+                if(result)
+                {
+                    return Ok("Past Due successfully updated");
+                }
+                else
+                {
+                    return NotFound("Past Dues Not Found");
+                }
             }
-
-            // Map UpdatePBDto to PastDue object using AutoMapper
-            _mapper.Map(updatedto, item);
-
-            dbContext.SaveChanges();
-
-            var updatedItems = _mapper.Map<PastDueDto>(item);
-
-            return Ok(updatedItems);
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
