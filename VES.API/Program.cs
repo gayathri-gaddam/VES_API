@@ -15,6 +15,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<INoticeService,NoticeService>();
+builder.Services.AddScoped<IPastDueService, PastDueService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
