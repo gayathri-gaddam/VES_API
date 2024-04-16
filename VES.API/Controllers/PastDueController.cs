@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using VES.API.Models.Domain;
 using VES.API.Models.DTO;
 using VES.API.Types.Interfaces;
 
@@ -12,24 +13,41 @@ namespace VES.API.Controllers
     public class PastDueController : Controller
     {
         private readonly IPastDueService _pastDueService;
-        public PastDueController(IPastDueService _pastDueService)
+        private readonly IDbAccess _dbAccess;
+        public PastDueController(IPastDueService _pastDueService, IDbAccess dbAccess)
         {
             this._pastDueService = _pastDueService;
+            _dbAccess = dbAccess;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPastDues([FromQuery] long? entryId, [FromQuery] long? invoiceId, [FromQuery] long? accountNo)
+        public async Task<IActionResult> GetPastDues([FromQuery] long? entryId, [FromQuery] long? invoiceId, [FromQuery] long? accountNo, [FromQuery] int? page, [FromQuery] int? pageSize)
         {
             try
             {
-              List<PastDueDto> pastDues=await _pastDueService.GetPastDues(entryId, invoiceId, accountNo);
-                if(pastDues!=null && pastDues.Count > 0)
+                if (page == null && pageSize == null)
                 {
-                    return Ok(pastDues);
+                    List<PastDueDto> pastDues = await _pastDueService.GetPastDues(entryId, invoiceId, accountNo);
+                    if (pastDues != null && pastDues.Count > 0)
+                    {
+                        return Ok(pastDues);
+                    }
+                    else
+                    {
+                        return NotFound("Past DUes not found with given filter");
+                    }
                 }
                 else
                 {
-                    return NotFound("Past DUes not found with given filter");
+                    List<PastDue> pastDues = _dbAccess.GetPastDuesByLimit(page, pageSize);
+                    if (pastDues != null && pastDues.Count > 0)
+                    {
+                        return Ok(pastDues);
+                    }
+                    else
+                    {
+                        return NotFound("Past DUes not found with given filter");
+                    }
                 }
             }
             catch (Exception ex)
@@ -38,7 +56,6 @@ namespace VES.API.Controllers
             }
 
         }
-
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdatePastDue([FromRoute]int id, [FromBody] JsonPatchDocument pastDueModel)

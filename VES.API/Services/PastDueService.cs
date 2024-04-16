@@ -18,25 +18,26 @@ namespace VES.API.Services
         {
             _context = context;
             _mapper = mapper;
+            
         }
 
         public async Task<List<PastDueDto>> GetPastDues(long? entryId, long? invoiceId, long? accountNo)
         {
             List<PastDueDto> pastDuesDto = null;
-            List<PastDue> pastDues=await this._context.PastDues.ToListAsync();
+            List<PastDue> pastDues = await this._context.PastDues.Take(25).ToListAsync();
             try
             {
                 if(entryId!=null)
                 {
-                    pastDues = pastDues.Where(pastdue => pastdue.EntryId.ToString().Contains(entryId.ToString())).ToList();
+                    pastDues = pastDues.Where(pastdue => pastdue.entryId.ToString().Contains(entryId.ToString())).ToList();
                 }
                 if (invoiceId != null)
                 {
-                    pastDues = pastDues.Where(pastdue => pastdue.InvoiceID.ToString().Contains(invoiceId.ToString())).ToList();
+                    pastDues = pastDues.Where(pastdue => pastdue.invoiceId.ToString().Contains(invoiceId.ToString())).ToList();
                 }
                 if (entryId != null)
                 {
-                    pastDues = pastDues.Where(pastdue => pastdue.AccountNo.ToString().Contains(accountNo.ToString())).ToList();
+                    pastDues = pastDues.Where(pastdue => pastdue.accountNo.ToString().Contains(accountNo.ToString())).ToList();
                 }
                 pastDuesDto = _mapper.Map<List<PastDueDto>>(pastDues);
             }
@@ -54,7 +55,7 @@ namespace VES.API.Services
             PastDue pastDue= null;
             try
             {
-                pastDue = await _context.PastDues.Where(pastDue => pastDue.EntryId == id).FirstAsync();
+                pastDue = await _context.PastDues.Where(pastDue => pastDue.entryId == id).FirstAsync();
                 if( pastDue!=null)
                 {
                     pastDueModel.ApplyTo(pastDue);
