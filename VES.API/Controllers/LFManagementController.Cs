@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
-
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 using VES.API.Data;
 using VES.API.Models.DTO;
+using VES.API.Services;
+using VES.API.Types.Interfaces;
 
 namespace VES.API.Controllers
 {
@@ -11,81 +13,55 @@ namespace VES.API.Controllers
     [Route("/api/v1/lateFees")]
     public class LFManagementController : ControllerBase
     {
-        private readonly VESDbContext dbContext;
-        private readonly IMapper _mapper;
+        private readonly ILFManagementService _lfService;
 
-        public LFManagementController(VESDbContext dbContext, IMapper mapper)
+        public LFManagementController(ILFManagementService _lfService)
         {
-            this.dbContext = dbContext;
-            _mapper = mapper;
+            this._lfService = _lfService;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllLF([FromQuery] long Id, [FromQuery] long AccountNo)
         {
-            //Get Data From Database - Domain Models
-            var tblLFMngment = dbContext.LFManagement.ToList();
-
-            // Map Domain Models to DTOs using AutoMapper
-            var tblLFMngmentDto = _mapper.Map<List<LFManagementDto>>(tblLFMngment);
-
-            // Return DTO
-            return Ok(tblLFMngmentDto);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
-        {
-            // Get LFMngment Domain from Database
-            var item = dbContext.LFManagement.FirstOrDefault(x => x.Id == id);
-
-            if (item == null)
+            try
             {
-                return NotFound();
+                List<LFManagementDto> lfs = await _lfService.GetAllLF(Id,AccountNo);
+                if (lfs != null && lfs.Count > 0)
+                {
+                    return Ok(lfs);
+                }
+                else
+                {
+                    return NotFound("LateFees not found with given filter");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
 
-            //Map LFmngment Domain Model to LFmngment DTO using AutoMapper
-            var lfmngmentdto = _mapper.Map<LFManagementDto>(item);
-
-            return Ok(lfmngmentdto);
         }
 
-        [HttpGet("{name}")]
-        public IActionResult GetByName([FromRoute] string name)
+        [HttpPatch("{Id}")]
+        public async Task<IActionResult> UpdateLF([FromRoute] int Id, [FromBody] JsonPatchDocument lfModel)
         {
-            // Get LFMngment Domain from Database
-            var item = dbContext.LFManagement.FirstOrDefault(item => item.Name == name);
-
-            if (item == null)
+            try
             {
-                return NotFound();
+                bool result = await _lfService.UpdateLF(Id, lfModel);
+                if (result)
+                {
+                    return Ok("LateFees successfully updated");
+                }
+                else
+                {
+                    return NotFound("LateFees not found");
+                }
             }
-
-            //Map LFmngment Domain Model to LFmngment DTO using AutoMapper
-            var lfmngmentdto = _mapper.Map<LFManagementDto>(item);
-
-            return Ok(lfmngmentdto);
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
-        
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] AddNewEntryDto addNewEntryDto)
-        {
-            var item = dbContext.LFManagement.FirstOrDefault(x => x.Id == id);
-            if (item == null)
-            {
-                return NotFound(); // Or any appropriate response indicating ID not found
-            }
-
-            // Map Request Body to LFManagment Domain Model using AutoMapper
-            _mapper.Map(addNewEntryDto, item);
-
-            dbContext.SaveChanges();
-
-            var updatedItem = _mapper.Map<LFManagementDto>(item);
-
-            return Ok(updatedItem);
-        }
-        
     }
 }

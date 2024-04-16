@@ -14,6 +14,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ILFManagementService, LFManagementService>();
 builder.Services.AddScoped<INoticeService,NoticeService>();
 builder.Services.AddScoped<IPastDueService, PastDueService>();
 
