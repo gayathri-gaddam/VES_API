@@ -2,7 +2,7 @@
 
 namespace VES.API.Models.DTO
 {
-    public class NoticeDto
+    public class NoticeDTO
     {
         [Key]
         public int entryId { get; set; }

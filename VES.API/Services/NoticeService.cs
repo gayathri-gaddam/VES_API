@@ -16,9 +16,9 @@ namespace VES.API.Services
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<NoticeDto>> GetAllNotices(long? entryId, long? noticeId, long? accountNo)
+        public async Task<List<NoticeDTO>> GetAllNotices(long? entryId, long? noticeId, long? accountNo)
         {
-            List<NoticeDto> noticesDto=null;
+            List<NoticeDTO> noticesDto=null;
             List<Notice> notices = await this._context.Notices.ToListAsync();
 
             try
@@ -38,7 +38,7 @@ namespace VES.API.Services
                     notices = notices.Where(notice => notice.accountNo.ToString().Contains(accountNo.ToString())).ToList();
                     
                 }
-                noticesDto = _mapper.Map<List<NoticeDto>>(notices);
+                noticesDto = _mapper.Map<List<NoticeDTO>>(notices);
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace VES.API.Services
             try
             {
                 notice = await _context.Notices.Where(notice => notice.entryId == id).FirstAsync();
-                if (notice != null)
+                if (notice!=null)
                 {
                     noticeModel.ApplyTo(notice);
                     await this._context.SaveChangesAsync();
@@ -62,9 +62,9 @@ namespace VES.API.Services
             }
             catch(Exception ex)
             {
-                throw;
+                throw new Exception("Notice not found with given ID");
             }
-            return notice==null?false: true;   
+            return notice!=null;   
         }
     }
 }

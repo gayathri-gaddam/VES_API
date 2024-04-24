@@ -21,9 +21,9 @@ namespace VES.API.Services
 
 
 
-        public async Task<List<LFManagementDto>> GetAllLF(long Id,long AccountNo)
+        public async Task<List<LFManagementDTO>> GetAllLF(long Id,long AccountNo)
         {
-            List<LFManagementDto> lfDto = null;
+            List<LFManagementDTO> lfDto = null;
             List<LFManagement> lf = await this._context.LFManagement.ToListAsync();
 
             try
@@ -39,7 +39,7 @@ namespace VES.API.Services
                     lf = lf.Where(notice => notice.AccountNo.ToString().Contains(AccountNo.ToString())).ToList();
 
                 }
-                lfDto = _mapper.Map<List<LFManagementDto>>(lf);
+                lfDto = _mapper.Map<List<LFManagementDTO>>(lf);
             }
             catch (Exception ex)
             {

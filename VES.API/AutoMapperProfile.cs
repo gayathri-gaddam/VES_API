@@ -8,10 +8,10 @@ namespace VES.API
     {
         public AutoMapperProfile()
         {
-            CreateMap<Notice, NoticeDto>();
-            CreateMap<PastDue, PastDueDto>();
-            CreateMap<LFManagement,LFManagementDto>();
-            
+            CreateMap<Notice, NoticeDTO>();
+            CreateMap<PastDue, PastDueDTO>();
+            CreateMap<LFManagement,LFManagementDTO>();
+            CreateMap<PBDTO, TempDTO>();
         }
     }
 }

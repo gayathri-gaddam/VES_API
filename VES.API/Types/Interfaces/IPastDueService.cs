@@ -9,7 +9,7 @@ namespace VES.API.Types.Interfaces
 {
     public interface IPastDueService
     {
-        public Task<List<PastDueDto>> GetPastDues(long? entryId, long? invoiceId, long? accountNo);
+        public Task<List<PastDueDTO>> GetPastDues(long? entryId, long? invoiceId, long? accountNo);
         public Task<bool> UpdatePastDue(int id, JsonPatchDocument pastDueModel);
     }
 }

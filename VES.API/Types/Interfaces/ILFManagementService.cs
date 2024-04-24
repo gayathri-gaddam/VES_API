@@ -10,7 +10,7 @@ namespace VES.API.Types.Interfaces
 {
     public interface ILFManagementService
     {
-        Task<List<LFManagementDto>> GetAllLF(long Id,long AccountNo);
+        Task<List<LFManagementDTO>> GetAllLF(long Id,long AccountNo);
         Task<bool> UpdateLF(int Id, JsonPatchDocument lfModel);
     }
 }

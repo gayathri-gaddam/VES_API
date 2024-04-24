@@ -9,7 +9,7 @@ namespace VES.API.Types.Interfaces
 {
     public interface INoticeService
     {
-        public Task<List<NoticeDto>> GetAllNotices(long? entryId, long? noticeId, long? accountNo);
+        public Task<List<NoticeDTO>> GetAllNotices(long? entryId, long? noticeId, long? accountNo);
         public Task<bool> UpdateNotice(int id, JsonPatchDocument noticeModel);
     }
 }

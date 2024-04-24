@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using VES.API.Models.Domain;
 using VES.API.Models.DTO;
 using VES.API.Types.Interfaces;
 
@@ -27,7 +26,7 @@ namespace VES.API.Controllers
             {
                 if (page == null && pageSize == null)
                 {
-                    List<PastDueDto> pastDues = await _pastDueService.GetPastDues(entryId, invoiceId, accountNo);
+                    List<PastDueDTO> pastDues = await _pastDueService.GetPastDues(entryId, invoiceId, accountNo);
                     if (pastDues != null && pastDues.Count > 0)
                     {
                         return Ok(pastDues);
@@ -39,7 +38,7 @@ namespace VES.API.Controllers
                 }
                 else
                 {
-                    List<PastDue> pastDues = _dbAccess.GetPastDuesByLimit(page, pageSize);
+                    List<PBDTO> pastDues = await _dbAccess.GetPastDuesByLimit(page, pageSize);
                     if (pastDues != null && pastDues.Count > 0)
                     {
                         return Ok(pastDues);

@@ -1,6 +1,6 @@
 ﻿namespace VES.API.Models.DTO
 {
-    public class PastDueDto
+    public class PastDueDTO
     {
         public int? EntryId { get; set; }
 

@@ -10,10 +10,12 @@ namespace VES.API.Controllers
     public class NoticesController : Controller
     {
         private readonly INoticeService _noticeService;
-        
-        public NoticesController(INoticeService _noticeService)
+        private readonly IDbAccess _dbAccess;
+
+        public NoticesController(INoticeService _noticeService,IDbAccess dbAccess)
         {
             this._noticeService = _noticeService;  
+            this._dbAccess = dbAccess;
         }
 
         [HttpGet]
@@ -21,7 +23,8 @@ namespace VES.API.Controllers
         {
             try
             {
-                List<NoticeDto> notices = await _noticeService.GetAllNotices(entryId, noticeId, accountNo);
+                /* List<NoticeDTO> notices = await _noticeService.GetAllNotices(entryId, noticeId, accountNo);*/
+                List<NoticesDTO> notices = await _dbAccess.GetNoticesByLimit();
                 if (notices != null && notices.Count>0)
                 {
                     return Ok(notices);

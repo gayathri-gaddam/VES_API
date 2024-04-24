@@ -2,7 +2,7 @@
 
 namespace VES.API.Models.DTO
 {
-    public class LFManagementDto
+    public class LFManagementDTO
     {
        
         public int Id { get; set; }

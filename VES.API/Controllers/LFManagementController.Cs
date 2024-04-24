@@ -25,7 +25,7 @@ namespace VES.API.Controllers
         {
             try
             {
-                List<LFManagementDto> lfs = await _lfService.GetAllLF(Id,AccountNo);
+                List<LFManagementDTO> lfs = await _lfService.GetAllLF(Id,AccountNo);
                 if (lfs != null && lfs.Count > 0)
                 {
                     return Ok(lfs);
