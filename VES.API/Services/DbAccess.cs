@@ -61,6 +61,24 @@ namespace VES.API.Services
             return UserList;
         }
 
+        public async Task<List<LateFeeDTO>> GetLateFeesByLimit(int? page, int? pageSize)
+        {
+
+            var UserList = await (from vi in _dbContext.vesInvoices
+                                  join vn in _dbContext.vesNotices
+                                   on vi.BatchItemID equals vn.BatchItemID
+                                  select new LateFeeDTO
+                                  {
+                                      InvoiceId = vi.InvoiceID,
+                                      InvoiceDate = vi.InvoiceDate,
+                                      DueDate = vi.DueDate,
+                                      PostingDate= vi.PostingDate,
+                                      ImpactAmount=vn.ImpactAmount
+
+                                  }).Take(10).ToListAsync();
+
+            return UserList;
+        }
         /* private List<PastDue> GetPastDuesFromReader(SqlDataReader reader)
          {
              List<PastDue> pastDues = new List<PastDue>();

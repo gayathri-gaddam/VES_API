@@ -7,5 +7,6 @@ namespace VES.API.Types.Interfaces
     {
         public Task<List<PBDTO>> GetPastDuesByLimit(int? page, int? pageSize);
         public Task<List<NoticesDTO>> GetNoticesByLimit();
+        public Task<List<LateFeeDTO>> GetLateFeesByLimit(int? page, int? pageSize);
     }
 }
