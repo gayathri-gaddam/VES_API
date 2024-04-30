@@ -10,7 +10,7 @@ using VES.API.Data;
 
 namespace VES.API.Migrations
 {
-    [DbContext(typeof(VESDbContext))]
+    [DbContext(typeof(InplicitDb))]
     partial class VESDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -102,7 +102,7 @@ namespace VES.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LFManagement");
+                    b.ToTable("LFManagement", (string)null);
 
                     b.HasData(
                         new
@@ -225,7 +225,7 @@ namespace VES.API.Migrations
 
                     b.HasKey("entryId");
 
-                    b.ToTable("Notices");
+                    b.ToTable("Notices", (string)null);
 
                     b.HasData(
                         new
@@ -344,30 +344,30 @@ namespace VES.API.Migrations
 
                     b.HasKey("EntryId");
 
-                    b.ToTable("PastDues");
+                    b.ToTable("PastDues", (string)null);
 
                     b.HasData(
                         new
                         {
-                            EntryId = 5896,
-                            AccountNo = "",
-                            CurrentCharges = "",
-                            HascontBFs = "",
-                            InvoiceDate = "",
-                            InvoiceID = 1,
-                            LfAmount = "",
-                            Notes = "",
-                            PMC = "A",
-                            PostingDate = "",
+                            EntryId = 7910,
+                            AccountNo = "014205",
+                            CurrentCharges = "$123.00",
+                            HascontBFs = "1",
+                            InvoiceDate = "10/1/2023",
+                            InvoiceID = 225289,
+                            LfAmount = "$0.00",
+                            Notes = "Payment ID and Date Posted Entered",
+                            PMC = "Multifamily Management Services, LLC",
+                            PostingDate = "10/17/2023",
                             PrimaryRc = "",
-                            PriorBalance = "",
-                            Priority = "",
-                            Rc1 = "",
-                            Rc2 = "",
-                            SiteName = "",
-                            TemplateAmount = "",
-                            Type = "",
-                            VendorName = ""
+                            PriorBalance = "5/17/1900",
+                            Priority = "New",
+                            Rc1 = "Missing Audited Invoice",
+                            Rc2 = "Final Invoice",
+                            SiteName = "280 Park Place",
+                            TemplateAmount = "0",
+                            Type = "Master",
+                            VendorName = "Get-A-Can Recycling"
                         });
                 });
 #pragma warning restore 612, 618

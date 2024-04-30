@@ -1,21 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VES.API.Data;
 using VES.API.Models.Domain;
 
-namespace VES.API.Data
+namespace VES.API.DBContext
 {
-    //VESDbContext extends from DbContext   
-    // : that means inherits
-    public class VESDbContext : DbContext
+    /*public class VesDBContext : DbContext
     {
-        public VESDbContext(DbContextOptions<VESDbContext> dbContextOptions) :base(dbContextOptions){ }
-
-        public DbSet<LFManagement> LFManagement{ get; set; }
-        public DbSet<PastDue> PastDues { get; set; }
-        public DbSet<Notice> Notices { get; set; }
-        
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public VesDBContext(DbContextOptions<VesDBContext> dbContextOptions) : base(dbContextOptions) { }
+        public DbSet<Site> Sites { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            modelBuilder.Seed();
+            optionsBuilder.UseSqlServer("CDSConnectionString");
         }
-    }
+    }*/
 }

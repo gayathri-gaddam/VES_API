@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VES.API.Data;
+using VES.API.DBContext;
 using VES.API.Services;
 using VES.API.Types.Interfaces;
 
@@ -8,11 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddDbContext<VESDbContext>(options =>
+builder.Services.AddDbContext<InplicitDb>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("VESConnectionString")));
 
 builder.Services.AddDbContext<CDSDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("CDSConnectionString")));
+
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

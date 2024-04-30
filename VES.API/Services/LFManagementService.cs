@@ -10,10 +10,10 @@ namespace VES.API.Services
 {
     public class LFManagementService : ILFManagementService
     {
-        private readonly VESDbContext _context;
+        private readonly InplicitDb _context;
         private readonly IMapper _mapper;
 
-        public LFManagementService(VESDbContext context, IMapper mapper)
+        public LFManagementService(InplicitDb context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

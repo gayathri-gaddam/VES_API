@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.Identity.Client;
+
 namespace VES.API.Models.DTO
 {
     public class PBDTO
@@ -13,7 +15,8 @@ namespace VES.API.Models.DTO
         public DateTime? NoticeDate { get; set; }
         public DateTime? ImpactDate { get; set; }
         public decimal? ImpactAmount { get; set; }
-
-
+        public string? SiteName { get; set; }
+        public long? EntryID { get; set; }
+        public string? VendorName { get; set; }
     }
 }

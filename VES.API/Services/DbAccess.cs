@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Runtime.Intrinsics.X86;
 using VES.API.Data;
+using VES.API.DBContext;
 using VES.API.Models.DTO;
 using VES.API.Types.Interfaces;
 
@@ -10,31 +13,38 @@ namespace VES.API.Services
     public class DbAccess:IDbAccess
     {
         
-        private readonly CDSDBContext _dbContext;
+        private readonly CDSDBContext _cdsDbContext;
         private readonly IMapper _mapper;
+
         public DbAccess(CDSDBContext dbContext,IMapper mapper)
         {
             _mapper = mapper;
-            _dbContext = dbContext;
+            _cdsDbContext = dbContext;
         }
         public async Task<List<PBDTO>> GetPastDuesByLimit(int? page, int? pageSize)
         {
             
-            var UserList = await (from vi in _dbContext.vesInvoices
-                              join vn in _dbContext.vesNotices
-                               on vi.CDSPMCID equals vn.CDSPMCID
-                              select new PBDTO
-                              {
-                                  SiteID=vi.SiteID,
-                                  InvoiceID=vi.InvoiceID,
-                                  PostingDate=vi.PostingDate,
-                                  CurrentAmount = vi.CurrentAmount,
-                                  PriorBalance = vi.PriorBalance,
-                                  InvoiceDate = vi.InvoiceDate,
-                                  ImpactDate = vn.ImpactDate,
-                                  NoticeDate = vn.NoticeDate,
-                                  ImpactAmount = vn.ImpactAmount
-                              }).Take(10).ToListAsync();
+
+                var UserList = await (from vi in _cdsDbContext.vesInvoices
+                                      join vn in _cdsDbContext.vesNotices
+                                       on vi.CDSPMCID equals vn.CDSPMCID
+                                       join s in _cdsDbContext.sites
+                                       on vi.SiteID equals s.SiteID
+                                      select new PBDTO
+                                      {
+                                          SiteID = vi.SiteID,
+                                          InvoiceID = vi.InvoiceID,
+                                          PostingDate = vi.PostingDate,
+                                          CurrentAmount = vi.CurrentAmount,
+                                          PriorBalance = vi.PriorBalance,
+                                          InvoiceDate = vi.InvoiceDate,
+                                          ImpactDate = vn.ImpactDate,
+                                          NoticeDate = vn.NoticeDate,
+                                          ImpactAmount = vn.ImpactAmount,
+                                      
+                                          SiteName= s.SiteName,
+                                          
+                                      }).Take(10).ToListAsync();
              
             return UserList;
         }
@@ -42,11 +52,10 @@ namespace VES.API.Services
 
         public async Task<List<NoticesDTO>> GetNoticesByLimit()
         {
-
-            var UserList = await (from vnn in _dbContext.vendorNotices
-                                  join vn in _dbContext.vesNotices
+            var UserList = await (from vnn in _cdsDbContext.vendorNotices
+                                  join vn in _cdsDbContext.vesNotices
                                    on vnn.CDSPMCID equals vn.CDSPMCID
-                                   join nt in _dbContext.noticeTypes 
+                                   join nt in _cdsDbContext.noticeTypes 
                                    on vn.CDSPMCID equals nt.CDSPMCID 
                                   select new NoticesDTO
                                   {
