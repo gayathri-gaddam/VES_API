@@ -11,7 +11,7 @@ using VES.API.Data;
 
 namespace VES.API.Migrations
 {
-    [DbContext(typeof(VESDbContext))]
+    [DbContext(typeof(InplicitDb))]
     [Migration("20240203174640_Initail Migration")]
     partial class InitailMigration
     {

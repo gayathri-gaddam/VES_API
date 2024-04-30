@@ -10,9 +10,9 @@ namespace VES.API.Services
 {
     public class NoticeService : INoticeService
     {
-        private readonly VESDbContext _context;
+        private readonly InplicitDb _context;
         private readonly IMapper _mapper;
-        public NoticeService(VESDbContext context, IMapper mapper) {
+        public NoticeService(InplicitDb context, IMapper mapper) {
             _context = context;
             _mapper = mapper;
         }

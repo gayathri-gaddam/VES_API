@@ -11,7 +11,7 @@ using VES.API.Data;
 
 namespace VES.API.Migrations
 {
-    [DbContext(typeof(VESDbContext))]
+    [DbContext(typeof(InplicitDb))]
     [Migration("20240226064235_PB Changes")]
     partial class PBChanges
     {

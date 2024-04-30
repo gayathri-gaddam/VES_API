@@ -11,7 +11,7 @@ using VES.API.Data;
 
 namespace VES.API.Migrations
 {
-    [DbContext(typeof(VESDbContext))]
+    [DbContext(typeof(InplicitDb))]
     [Migration("20240304055411_merged all tables into one database")]
     partial class mergedalltablesintoonedatabase
     {

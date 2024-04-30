@@ -11,7 +11,7 @@ using VES.API.Data;
 
 namespace VES.API.Migrations
 {
-    [DbContext(typeof(VESDbContext))]
+    [DbContext(typeof(InplicitDb))]
     [Migration("20240317070912_changed field data types on lfmanagement")]
     partial class changedfielddatatypesonlfmanagement
     {

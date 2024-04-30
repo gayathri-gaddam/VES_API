@@ -11,7 +11,7 @@ using VES.API.Data;
 
 namespace VES.API.Migrations
 {
-    [DbContext(typeof(VESDbContext))]
+    [DbContext(typeof(InplicitDb))]
     [Migration("20240229093343_changed table names")]
     partial class changedtablenames
     {

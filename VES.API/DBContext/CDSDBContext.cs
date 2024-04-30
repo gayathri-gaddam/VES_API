@@ -11,6 +11,9 @@ namespace VES.API.Data
         public DbSet<VesNotice> vesNotices { get; set; }
         public DbSet<VesInvoice> vesInvoices { get; set; }
         public DbSet<VendorNotice> vendorNotices { get; set; }
-        public DbSet<VendorNoticeType> noticeTypes { get; set; } 
+        public DbSet<VendorNoticeType> noticeTypes { get; set; }
+        public DbSet<Site> sites { get; set; }
+        public DbSet<Vendor> vendors { get; set; }
+
     }
 }

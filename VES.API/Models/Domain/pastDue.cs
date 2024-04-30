@@ -10,7 +10,7 @@ namespace VES.API.Models.Domain
         public string? pmc { get; set; }
         public int? invoiceId { get; set; }
         public string? type { get; set; }
-        public int? siteId { get; set; }
+        public int? siteName { get; set; }
         public string? vendorName { get; set; }
         public string? accountNo { get; set; }
         public string? invoiceDate { get; set; }
@@ -29,30 +29,5 @@ namespace VES.API.Models.Domain
         public int? impactAmount { get; set; }
         public string? noticeDate { get; set; }
 
-        public PastDue()
-        {
-            entryId = 0;
-            pmc = null;
-            invoiceId = 0;
-            type = null;
-            siteId = 0;
-            vendorName = null;
-            accountNo = null;
-            invoiceDate = null;
-            hascontBFs = null;
-            postingDate = null;
-            priorBalance = 0;
-            currentAmount = null;
-            lfAmount = 0;
-            priority = null;
-            templateAmount = 0;
-            primaryRc = null;
-            rc1 = null;
-            rc2 = null;
-            notes = null;
-            impactDate = null;
-            impactAmount = 0;
-            noticeDate= null;
-        }
     }
 }

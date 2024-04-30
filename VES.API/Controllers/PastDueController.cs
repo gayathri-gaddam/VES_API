@@ -33,19 +33,20 @@ namespace VES.API.Controllers
                     }
                     else
                     {
-                        return NotFound("Past DUes not found with given filter");
+                        return NotFound("Past Dues not found with given filter");
                     }
                 }
                 else
                 {
                     List<PBDTO> pastDues = await _dbAccess.GetPastDuesByLimit(page, pageSize);
+                    
                     if (pastDues != null && pastDues.Count > 0)
                     {
                         return Ok(pastDues);
                     }
                     else
                     {
-                        return NotFound("Past DUes not found with given filter");
+                        return NotFound("Past Dues not found with given filter");
                     }
                 }
             }

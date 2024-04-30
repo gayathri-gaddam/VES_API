@@ -11,10 +11,10 @@ namespace VES.API.Services
    
     public class PastDueService : IPastDueService
     {
-        private readonly VESDbContext _context;
+        private readonly InplicitDb _context;
         private readonly IMapper _mapper;
 
-        public PastDueService(VESDbContext context, IMapper mapper)
+        public PastDueService(InplicitDb context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
