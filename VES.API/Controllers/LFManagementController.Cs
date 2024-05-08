@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-
-using VES.API.Data;
 using VES.API.Models.DTO;
-using VES.API.Services;
 using VES.API.Types.Interfaces;
 
 namespace VES.API.Controllers
@@ -14,25 +10,41 @@ namespace VES.API.Controllers
     public class LFManagementController : ControllerBase
     {
         private readonly ILFManagementService _lfService;
-
-        public LFManagementController(ILFManagementService _lfService)
+        private readonly IDbAccess _dbAccess;
+        public LFManagementController(ILFManagementService _lfService, IDbAccess dbAccess)
         {
             this._lfService = _lfService;
+            _dbAccess = dbAccess;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllLF([FromQuery] long Id, [FromQuery] long AccountNo)
+        public async Task<IActionResult> GetAllLF([FromQuery] long Id, [FromQuery] long AccountNo, [FromQuery] int? page, [FromQuery] int? pageSize)
         {
             try
             {
-                List<LFManagementDTO> lfs = await _lfService.GetAllLF(Id,AccountNo);
-                if (lfs != null && lfs.Count > 0)
+                if (page==null && pageSize==null)
                 {
-                    return Ok(lfs);
+                    List<LFManagementDTO> lfs = await _lfService.GetAllLF(Id, AccountNo);
+                    if (lfs != null && lfs.Count > 0)
+                    {
+                        return Ok(lfs);
+                    }
+                    else
+                    {
+                        return NotFound("LateFees not found with given filter");
+                    }
                 }
                 else
                 {
-                    return NotFound("LateFees not found with given filter");
+                    List<LateFeeDTO> lfs=await _dbAccess.GetLateFeesByLimit(page, pageSize);
+                    if(lfs!=null && lfs.Count > 0)
+                    {
+                        return Ok(lfs);
+                    }
+                    else
+                    {
+                        return NotFound("Late Fees with given filter not found!");
+                    }
                 }
             }
             catch (Exception ex)

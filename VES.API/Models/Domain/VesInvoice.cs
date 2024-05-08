@@ -17,6 +17,7 @@ namespace VES.API.Models.Domain
         public decimal CurrentAmount { get; set; }
         public decimal PriorBalance { get; set; }
         public DateTime InvoiceDate { get; set; }
-
+        public DateTime DueDate { get; set; }
+        public int BatchItemID {  get; set; }
     }
 }
