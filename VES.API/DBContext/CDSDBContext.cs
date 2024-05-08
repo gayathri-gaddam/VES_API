@@ -14,6 +14,8 @@ namespace VES.API.Data
         public DbSet<VendorNoticeType> noticeTypes { get; set; }
         public DbSet<Site> sites { get; set; }
         public DbSet<Vendor> vendors { get; set; }
+        public DbSet<PMC> pmcs { get; set; }
 
+        public DbSet<VendorAccount> vendorAccounts {  get; set; } 
     }
 }
