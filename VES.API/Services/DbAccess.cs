@@ -27,19 +27,20 @@ namespace VES.API.Services
 
             var UserList = await (from vi in _cdsDbContext.vesInvoices
                                   join vn in _cdsDbContext.vesNotices
-                                  on vi.InvoiceID equals vn.InvoiceID
+                                  on vi.BatchItemID equals vn.BatchItemID
                                   join s in _cdsDbContext.sites
                                   on vi.SiteID equals s.SiteID
                                   join p in _cdsDbContext.pmcs
                                   on s.PMCID equals p.PMCID
                                   join va in _cdsDbContext.vendorAccounts
-                                  on vi.SiteID equals va.SiteID
+                                  on vi.VendorAccountID equals va.VendorAccountID
                                   join v in _cdsDbContext.vendors
                                   on va.VendorID equals v.VendorID
 
                                   select new PBDTO
                                   {
                                       PMCName=p.PMCName,
+                                      AccountNo=va.VendorAccountNo,
                                       VendorName=v.VendorName ,
                                       SiteID = vi.SiteID,
                                       InvoiceID = vi.InvoiceID,
@@ -50,11 +51,9 @@ namespace VES.API.Services
                                       NoticeDate = vn.NoticeDate,
                                       ImpactDate = vn.ImpactDate,
                                       ImpactAmount = vn.ImpactAmount,
-
-
                                       SiteName = s.SiteName,
 
-                                   }).Distinct().Take(10).ToListAsync();
+                                   }).Take(10).ToListAsync();
 
 
             return UserList;
@@ -86,9 +85,21 @@ namespace VES.API.Services
 
             var UserList = await (from vi in _cdsDbContext.vesInvoices
                                   join vn in _cdsDbContext.vesNotices
-                                   on vi.BatchItemID equals vn.BatchItemID
+                                  on vi.BatchItemID equals vn.BatchItemID
+                                  join s in _cdsDbContext.sites
+                                  on vi.SiteID equals s.SiteID
+                                  join p in _cdsDbContext.pmcs
+                                  on s.PMCID equals p.PMCID
+                                  join va in _cdsDbContext.vendorAccounts
+                                  on vi.VendorAccountID equals va.VendorAccountID
+                                  join v in _cdsDbContext.vendors
+                                  on va.VendorID equals v.VendorID
                                   select new LateFeeDTO
                                   {
+                                      PMCName = p.PMCName,
+                                      SiteName = s.SiteName,
+                                      VendorName = v.VendorName,
+                                      AccountNo = va.VendorAccountNo,
                                       InvoiceId = vi.InvoiceID,
                                       InvoiceDate = vi.InvoiceDate,
                                       DueDate = vi.DueDate,

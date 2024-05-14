@@ -19,5 +19,6 @@ namespace VES.API.Models.DTO
         public string? SiteName { get; set; }
         public long? EntryID { get; set; }
         public string? VendorName { get; set; }
+        public string? AccountNo { get; set; } 
     }
 }
