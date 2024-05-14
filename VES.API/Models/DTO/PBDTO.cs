@@ -6,6 +6,7 @@ namespace VES.API.Models.DTO
 {
     public class PBDTO
     {
+        public string? PMCName {  get; set; }
         public int? SiteID { get; set; }
         public int? InvoiceID { get; set; }
         public DateTime? PostingDate { get; set; }

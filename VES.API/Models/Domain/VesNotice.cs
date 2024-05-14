@@ -16,5 +16,6 @@ namespace VES.API.Models.Domain
         public DateTime NoticeDate { get; set; }
         public decimal ImpactAmount { get; set; }
         public int BatchItemID {  get; set; }
+        public int InvoiceID { get; set; }
     }
 }

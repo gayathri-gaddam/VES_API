@@ -11,5 +11,6 @@ namespace VES.API.Models.Domain
         public int CDSPMCID { get; set; }
         public string? SiteName { get; set; }   
         public int? SiteID { get; set; }
+        public int? PMCID {  get; set; }
     }
 }

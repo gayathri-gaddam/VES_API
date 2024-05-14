@@ -23,29 +23,40 @@ namespace VES.API.Services
         }
         public async Task<List<PBDTO>> GetPastDuesByLimit(int? page, int? pageSize)
         {
-            
 
-                var UserList = await (from vi in _cdsDbContext.vesInvoices
-                                      join vn in _cdsDbContext.vesNotices
-                                       on vi.CDSPMCID equals vn.CDSPMCID
-                                       join s in _cdsDbContext.sites
-                                       on vi.SiteID equals s.SiteID
-                                      select new PBDTO
-                                      {
-                                          SiteID = vi.SiteID,
-                                          InvoiceID = vi.InvoiceID,
-                                          PostingDate = vi.PostingDate,
-                                          CurrentAmount = vi.CurrentAmount,
-                                          PriorBalance = vi.PriorBalance,
-                                          InvoiceDate = vi.InvoiceDate,
-                                          ImpactDate = vn.ImpactDate,
-                                          NoticeDate = vn.NoticeDate,
-                                          ImpactAmount = vn.ImpactAmount,
-                                      
-                                          SiteName= s.SiteName,
-                                          
-                                      }).Take(10).ToListAsync();
-             
+
+            var UserList = await (from vi in _cdsDbContext.vesInvoices
+                                  join vn in _cdsDbContext.vesNotices
+                                  on vi.InvoiceID equals vn.InvoiceID
+                                  join s in _cdsDbContext.sites
+                                  on vi.SiteID equals s.SiteID
+                                  join p in _cdsDbContext.pmcs
+                                  on s.PMCID equals p.PMCID
+                                  join va in _cdsDbContext.vendorAccounts
+                                  on vi.SiteID equals va.SiteID
+                                  join v in _cdsDbContext.vendors
+                                  on va.VendorID equals v.VendorID
+
+                                  select new PBDTO
+                                  {
+                                      PMCName=p.PMCName,
+                                      VendorName=v.VendorName ,
+                                      SiteID = vi.SiteID,
+                                      InvoiceID = vi.InvoiceID,
+                                      PostingDate = vi.PostingDate,
+                                      CurrentAmount = vi.CurrentAmount,
+                                      PriorBalance = vi.PriorBalance,
+                                      InvoiceDate = vi.InvoiceDate,
+                                      NoticeDate = vn.NoticeDate,
+                                      ImpactDate = vn.ImpactDate,
+                                      ImpactAmount = vn.ImpactAmount,
+
+
+                                      SiteName = s.SiteName,
+
+                                   }).Distinct().Take(10).ToListAsync();
+
+
             return UserList;
         }
 
@@ -73,8 +84,8 @@ namespace VES.API.Services
         public async Task<List<LateFeeDTO>> GetLateFeesByLimit(int? page, int? pageSize)
         {
 
-            var UserList = await (from vi in _dbContext.vesInvoices
-                                  join vn in _dbContext.vesNotices
+            var UserList = await (from vi in _cdsDbContext.vesInvoices
+                                  join vn in _cdsDbContext.vesNotices
                                    on vi.BatchItemID equals vn.BatchItemID
                                   select new LateFeeDTO
                                   {
