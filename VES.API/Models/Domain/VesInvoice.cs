@@ -19,5 +19,6 @@ namespace VES.API.Models.Domain
         public DateTime InvoiceDate { get; set; }
         public DateTime DueDate { get; set; }
         public int BatchItemID {  get; set; }
+        public string? VendorAccountID { get; set; }
     }
 }

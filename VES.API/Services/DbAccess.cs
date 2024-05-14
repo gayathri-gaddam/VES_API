@@ -33,14 +33,14 @@ namespace VES.API.Services
                                   join p in _cdsDbContext.pmcs
                                   on s.PMCID equals p.PMCID
                                   join va in _cdsDbContext.vendorAccounts
-                                  on vi.SiteID equals va.SiteID
+                                  on vi.VendorAccountID equals va.VendorAccountID
                                   join v in _cdsDbContext.vendors
                                   on va.VendorID equals v.VendorID
-
                                   select new PBDTO
                                   {
                                       PMCName=p.PMCName,
-                                      VendorName=v.VendorName ,
+                                      AccountNo = va.VendorAccountNo,
+                                      VendorName =v.VendorName ,
                                       SiteID = vi.SiteID,
                                       InvoiceID = vi.InvoiceID,
                                       PostingDate = vi.PostingDate,
@@ -50,8 +50,6 @@ namespace VES.API.Services
                                       NoticeDate = vn.NoticeDate,
                                       ImpactDate = vn.ImpactDate,
                                       ImpactAmount = vn.ImpactAmount,
-
-
                                       SiteName = s.SiteName,
 
                                    }).Distinct().Take(10).ToListAsync();

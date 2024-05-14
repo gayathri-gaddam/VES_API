@@ -9,5 +9,7 @@ namespace VES.API.Models.Domain
         public int? CDSEntrySequenceID { get; set; }
         public int? SiteID { get; set; }
         public int? VendorID {  get; set; }
+        public int? VendorAccountID { get; set; }
+        public string? VendorAccountNo {  get; set; }
     }
 }
